@@ -10,7 +10,8 @@ function App() {
   };
 
   const handleInput = (ev) => {
-    setLastLetter(ev.target.value);
+    var regex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]$/; // filtrado del input 
+    if (regex.test(ev.target.value) || ev.target.value === '') { setLastLetter(ev.target.value) };
   };
 
   return (
