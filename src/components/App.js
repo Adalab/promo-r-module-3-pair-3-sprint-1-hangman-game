@@ -4,14 +4,42 @@ import { useState } from 'react';
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
+  const [word, setWord] = useState('casa');
+  const [userLetters, setUserLetters] = useState([]);
 
   const handleClick = () => {
     setNumberOfErrors(numberOfErrors + 1);
   };
 
   const handleInput = (ev) => {
-    var regex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]$/; // filtrado del input 
-    if (regex.test(ev.target.value) || ev.target.value === '') { setLastLetter(ev.target.value) };
+    var regex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]$/; // filtrado del input
+    if (regex.test(ev.target.value) || ev.target.value === '') {
+      setLastLetter(ev.target.value);
+    }
+  };
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+
+    return wordLetters.map((eachLetter) => {
+      return (
+        <li  className='letter'>
+          {eachLetter}
+        </li>
+      );
+    });
+  };
+
+  const renderErrorLetters = () => {
+    userLetters.filter((letter) =>
+      letter.contains(word).map((eachLetter) => {
+        return (
+          <li className='letter'>
+            {eachLetter}
+          </li>
+        );
+      })
+    );
   };
 
   return (
@@ -23,28 +51,12 @@ function App() {
         <section>
           <div className='solution'>
             <h2 className='title'>Solución:</h2>
-            <ul className='letters'>
-              <li className='letter'>k</li>
-              <li className='letter'>a</li>
-              <li className='letter'></li>
-              <li className='letter'>a</li>
-              <li className='letter'>k</li>
-              <li className='letter'>r</li>
-              <li className='letter'></li>
-              <li className='letter'>k</li>
-              <li className='letter'>e</li>
-              <li className='letter'>r</li>
-            </ul>
+
+            <ul className='letters'> {renderSolutionLetters()} </ul>
           </div>
           <div className='error'>
             <h2 className='title'>Letras falladas:</h2>
-            <ul className='letters'>
-              <li className='letter'>f</li>
-              <li className='letter'>q</li>
-              <li className='letter'>h</li>
-              <li className='letter'>p</li>
-              <li className='letter'>x</li>
-            </ul>
+            <ul className='letters'> {renderErrorLetters()}</ul>
           </div>
           <form className='form'>
             <label className='title' htmlFor='last-letter'>
